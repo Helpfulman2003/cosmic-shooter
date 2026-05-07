@@ -124,7 +124,7 @@ export default function SubmitScorePanel({ score = 0, onSubmitted = () => { } }:
               boxShadow: "0 4px 15px rgba(0,102,255,0.3)",
             }}
           >
-            {isPending ? "⏳ XÁC NHẬN TRÊN VÍ…" : isConfirming ? "⛓ ĐANG LƯU VÀO BASE…" : "⬆ GỬI ĐIỂM LÊN BASE"}
+            {isPending ? "⏳ CONFIRM IN WALLET..." : isConfirming ? "⛓ WRITING TO BASE..." : "⬆ SUBMIT TO BLOCKCHAIN"}
           </button>
 
           {error && (

@@ -9,7 +9,6 @@ function shortenAddress(addr: string) {
 }
 
 const RANK_COLORS = ["#ffd700", "#c0c0c0", "#cd7f32", "#aabbff", "#aabbff"];
-const RANK_EMOJI = ["🥇", "🥈", "🥉", "4", "5", "6", "7", "8", "9", "10"];
 
 export default function Leaderboard({ currentAddress }: { currentAddress?: string }) {
   const { topPlayers, refetch } = useLeaderboard();
@@ -21,82 +20,97 @@ export default function Leaderboard({ currentAddress }: { currentAddress?: strin
     return () => clearInterval(interval);
   }, [refetch]);
 
-  const validPlayers = (topPlayers as any[]).filter(
+  const validPlayers = (topPlayers as any[] || []).filter(
     (p) => p.player !== "0x0000000000000000000000000000000000000000"
   );
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between mb-3">
-        <h3 style={{ color: "#00cfff", fontFamily: "'Courier New', monospace", fontSize: 14, fontWeight: "bold", letterSpacing: 2 }}>
-          ◈ ONCHAIN LEADERBOARD
-        </h3>
-        <button
-          onClick={() => refetch()}
-          style={{ color: "#ffffff60", fontSize: 11, fontFamily: "'Courier New', monospace", cursor: "pointer", background: "none", border: "none" }}
-        >
-          ↻ REFRESH
-        </button>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: "center",
+        padding: "0 4px 8px 4px",
+        borderBottom: "1px solid rgba(255,255,255,0.05)"
+      }}>
+        <span style={{ color: "#ffffff40", fontSize: 10, fontWeight: "bold", letterSpacing: 1 }}>TOP PILOTS</span>
+        <span style={{ color: "#ffffff40", fontSize: 10, fontWeight: "bold", letterSpacing: 1 }}>SCORE</span>
       </div>
 
-      {loading ? (
-        <div style={{ textAlign: "center", color: "#ffffff40", fontFamily: "'Courier New', monospace", fontSize: 12, padding: "20px 0" }}>
-          Loading…
-        </div>
-      ) : validPlayers.length === 0 ? (
-        <div style={{ textAlign: "center", color: "#ffffff40", fontFamily: "'Courier New', monospace", fontSize: 12, padding: "20px 0" }}>
-          No scores yet. Be the first!
-        </div>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          {validPlayers.map((p, i) => {
-            const isMe = currentAddress && p.player.toLowerCase() === currentAddress.toLowerCase();
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "40px 0", color: "#ffffff40", fontSize: 12 }}>
+            LOADING BLOCKCHAIN DATA...
+          </div>
+        ) : validPlayers.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "40px 0", color: "#ffffff20", fontSize: 12 }}>
+            NO DATA ONCHAIN YET
+          </div>
+        ) : (
+          validPlayers.map((entry, i) => {
+            const isMe = currentAddress && entry.player.toLowerCase() === currentAddress.toLowerCase();
             return (
               <div
                 key={i}
                 style={{
                   display: "flex",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  gap: 8,
-                  padding: "8px 12px",
-                  borderRadius: 8,
-                  background: isMe ? "rgba(0,207,255,0.12)" : "rgba(255,255,255,0.04)",
-                  border: isMe ? "1px solid rgba(0,207,255,0.3)" : "1px solid rgba(255,255,255,0.06)",
-                  transition: "all 0.2s",
+                  padding: "12px 16px",
+                  borderRadius: 12,
+                  background: isMe ? "rgba(0,207,255,0.12)" : "rgba(255,255,255,0.02)",
+                  border: isMe ? "1px solid rgba(0,207,255,0.3)" : "1px solid rgba(255,255,255,0.05)",
+                  transition: "transform 0.2s",
                 }}
               >
-                <span style={{ width: 20, textAlign: "center", fontSize: 14 }}>
-                  {RANK_EMOJI[i]}
-                </span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{
-                    fontFamily: "'Courier New', monospace",
-                    fontSize: 13,
-                    fontWeight: "bold",
-                    color: isMe ? "#00cfff" : RANK_COLORS[i] || "#ffffff",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <span style={{ 
+                    color: RANK_COLORS[i] || "#ffffff30",
+                    fontWeight: "900",
+                    fontSize: 14,
+                    width: 20
                   }}>
-                    {p.nickname || shortenAddress(p.player)}
-                    {isMe && <span style={{ fontSize: 10, marginLeft: 6, opacity: 0.7 }}>YOU</span>}
-                  </div>
-                  <div style={{ fontSize: 10, color: "#ffffff40", fontFamily: "'Courier New', monospace" }}>
-                    {shortenAddress(p.player)}
+                    {i + 1}
+                  </span>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span style={{ 
+                      color: isMe ? "#00cfff" : "#fff", 
+                      fontSize: 13, 
+                      fontWeight: "bold",
+                      letterSpacing: 0.5
+                    }}>
+                      {entry.nickname || "Anonymous"}
+                    </span>
+                    <span style={{ color: "#ffffff30", fontSize: 9 }}>
+                      {shortenAddress(entry.player)}
+                    </span>
                   </div>
                 </div>
-                <div style={{
-                  fontFamily: "'Courier New', monospace",
-                  fontSize: 15,
-                  fontWeight: "bold",
-                  color: RANK_COLORS[i] || "#ffffff",
-                  textShadow: i === 0 ? "0 0 10px #ffd700" : "none",
-                }}>
-                  {Number(p.score).toLocaleString()}
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ 
+                    color: RANK_COLORS[i] || "#00cfff", 
+                    fontSize: 15, 
+                    fontWeight: "900",
+                    fontFamily: "monospace"
+                  }}>
+                    {Number(entry.score).toLocaleString()}
+                  </div>
                 </div>
               </div>
             );
-          })}
+          })
+        )}
+      </div>
+
+      {!loading && validPlayers.length > 0 && (
+        <div style={{ 
+          marginTop: 12, 
+          textAlign: "center", 
+          fontSize: 10, 
+          color: "#ffffff20",
+          fontStyle: "italic"
+        }}>
+          Updating live from Base Mainnet
         </div>
       )}
     </div>

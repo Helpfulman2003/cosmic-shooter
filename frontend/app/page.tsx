@@ -58,156 +58,151 @@ export default function Home() {
         <main
             style={{
                 minHeight: "100vh",
-                background: "linear-gradient(160deg, #020510 0%, #040a1a 50%, #06051a 100%)",
+                background: "radial-gradient(circle at top, #060b26 0%, #020510 100%)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                padding: "16px",
+                padding: "20px 12px 40px 12px",
                 fontFamily: "'Courier New', monospace",
+                color: "#fff",
+                overflowX: "hidden",
             }}
         >
+            {/* HEADER */}
             <div
                 style={{
                     width: "100%",
-                    maxWidth: 800,
+                    maxWidth: 1000,
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    marginBottom: 16,
-                    padding: "0 4px",
+                    marginBottom: 24,
+                    padding: "0 8px",
                 }}
             >
-                <div>
-                    <div style={{ color: "#00cfff", fontSize: 18, fontWeight: "bold", letterSpacing: 3 }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{ 
+                        color: "#00cfff", 
+                        fontSize: "clamp(16px, 5vw, 22px)", 
+                        fontWeight: 900, 
+                        letterSpacing: 4,
+                        textShadow: "0 0 15px rgba(0,207,255,0.5)"
+                    }}>
                         ◈ COSMIC SHOOTER
                     </div>
-                    <div style={{ color: "#ffffff30", fontSize: 10, marginTop: 2 }}>
-                        BASE MAINNET • ONCHAIN LEADERBOARD
+                    <div style={{ color: "#ffffff40", fontSize: 10, marginTop: 4, letterSpacing: 1 }}>
+                        BASE MAINNET • ONCHAIN ARCADE
                     </div>
                 </div>
-                <WalletButton />
+                <div style={{ transform: "scale(0.9)", transformOrigin: "right" }}>
+                    <WalletButton />
+                </div>
             </div>
 
+            {/* MAIN CONTENT GRID */}
             <div
                 style={{
                     width: "100%",
-                    maxWidth: 900,
+                    maxWidth: 1000,
                     display: "flex",
-                    gap: "20px",
                     flexDirection: "row",
                     flexWrap: "wrap",
+                    gap: 24,
                     justifyContent: "center",
                     alignItems: "flex-start",
                 }}
             >
-                {/* GAME CONTAINER */}
+                {/* GAME SECTION */}
                 <div
                     style={{
-                        background: "rgba(0,0,0,0.6)",
-                        border: "1px solid rgba(0,207,255,0.2)",
-                        borderRadius: 16,
-                        overflow: "hidden",
-                        boxShadow: "0 0 40px rgba(0,207,255,0.08), inset 0 0 60px rgba(0,0,20,0.8)",
                         flex: "1 1 360px",
-                        maxWidth: "400px",
+                        maxWidth: 480,
+                        width: "100%",
+                        background: "rgba(0,0,0,0.4)",
+                        border: "2px solid rgba(0,207,255,0.15)",
+                        borderRadius: 24,
+                        padding: 8,
+                        boxShadow: "0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(0,207,255,0.05)",
                         position: "relative",
-                        aspectRatio: "2/3",
-                        maxHeight: "80vh",
                     }}
                 >
-                    <CosmicGame onGameOver={handleGameOver} />
+                    <div style={{ borderRadius: 16, overflow: "hidden", position: "relative" }}>
+                        <CosmicGame onGameOver={handleGameOver} />
+                    </div>
                 </div>
 
-                {/* SIDE PANEL */}
-                <div style={{ flex: "1 1 300px", minWidth: "300px", maxWidth: "400px", display: "flex", flexDirection: "column", gap: 12 }}>
-                    {!isConnected && (
-                        <div
-                            style={{
-                                padding: 16,
-                                borderRadius: 12,
-                                background: "rgba(255,255,255,0.03)",
-                                border: "1px solid rgba(255,255,255,0.08)",
-                            }}
-                        >
-                            <div style={{ color: "#ffffff60", fontSize: 12, marginBottom: 10, textAlign: "center" }}>
-                                Connect wallet to submit scores onchain
-                            </div>
-                            <WalletButton />
-                        </div>
-                    )}
-
-                    {isConnected && (
-                        <div
-                            style={{
-                                padding: "8px 12px",
-                                borderRadius: 8,
-                                background: "rgba(0,255,136,0.06)",
-                                border: "1px solid rgba(0,255,136,0.2)",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 8,
-                            }}
-                        >
-                            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ff88", boxShadow: "0 0 6px #00ff88" }} />
-                            <span style={{ color: "#00ff88", fontSize: 11 }}>Base mainnet</span>
-                            <a
-                                href="https://docs.base.org/base-chain/network-information/network-faucets"
-                                target="_blank"
-                                rel="noreferrer"
-                                style={{ color: "#ffffff40", fontSize: 10, marginLeft: "auto" }}
-                            >
-                                Get ETH ↗
-                            </a>
-                        </div>
-                    )}
-
+                {/* SIDE PANEL SECTION */}
+                <div style={{ 
+                    flex: "1 1 320px", 
+                    maxWidth: 400, 
+                    display: "flex", 
+                    flexDirection: "column", 
+                    gap: 16 
+                }}>
+                    {/* NETWORK STATUS */}
                     <div
                         style={{
-                            borderRadius: 12,
+                            padding: "12px 16px",
+                            borderRadius: 16,
+                            background: "rgba(0,255,136,0.04)",
+                            border: "1px solid rgba(0,255,136,0.15)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 10,
+                            backdropFilter: "blur(10px)",
+                        }}
+                    >
+                        <div style={{ 
+                            width: 8, 
+                            height: 8, 
+                            borderRadius: "50%", 
+                            background: isConnected ? "#00ff88" : "#ff4466",
+                            boxShadow: `0 0 10px ${isConnected ? "#00ff88" : "#ff4466"}`
+                        }} />
+                        <span style={{ color: isConnected ? "#00ff88" : "#ff4466", fontSize: 12, fontWeight: "bold" }}>
+                            {isConnected ? "BASE MAINNET ACTIVE" : "WALLET DISCONNECTED"}
+                        </span>
+                    </div>
+
+                    {/* INTERACTIVE PANEL */}
+                    <div
+                        style={{
+                            borderRadius: 20,
                             background: "rgba(255,255,255,0.03)",
                             border: "1px solid rgba(255,255,255,0.08)",
                             overflow: "hidden",
+                            backdropFilter: "blur(20px)",
+                            boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
                         }}
                     >
-                        <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                        {/* TABS */}
+                        <div style={{ display: "flex", background: "rgba(0,0,0,0.2)" }}>
                             {(["board", "submit"] as const).map((t) => (
                                 <button
                                     key={t}
                                     onClick={() => setTab(t)}
                                     style={{
                                         flex: 1,
-                                        padding: "10px",
-                                        background: tab === t ? "rgba(0,207,255,0.1)" : "transparent",
+                                        padding: "14px",
+                                        background: tab === t ? "rgba(0,207,255,0.08)" : "transparent",
                                         border: "none",
-                                        color: tab === t ? "#00cfff" : "#ffffff40",
+                                        color: tab === t ? "#00cfff" : "#ffffff30",
                                         fontFamily: "'Courier New', monospace",
-                                        fontSize: 11,
+                                        fontSize: 12,
+                                        fontWeight: "bold",
                                         cursor: "pointer",
-                                        borderBottom: tab === t ? "2px solid #00cfff" : "2px solid transparent",
-                                        fontWeight: tab === t ? "bold" : "normal",
+                                        borderBottom: tab === t ? "3px solid #00cfff" : "3px solid transparent",
+                                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                         letterSpacing: 1,
-                                        transition: "all 0.2s",
                                     }}
                                 >
                                     {t === "board" ? "LEADERBOARD" : "SUBMIT SCORE"}
-                                    {t === "submit" && showSubmit && lastScore > 0 && (
-                                        <span
-                                            style={{
-                                                marginLeft: 6,
-                                                background: "#ff4488",
-                                                color: "#fff",
-                                                fontSize: 10,
-                                                padding: "1px 5px",
-                                                borderRadius: 4,
-                                            }}
-                                        >
-                                            NEW
-                                        </span>
-                                    )}
                                 </button>
                             ))}
                         </div>
-                        <div style={{ padding: 16 }}>
+
+                        {/* CONTENT AREA */}
+                        <div style={{ padding: 20, minHeight: 300 }}>
                             {tab === "board" ? (
                                 <Leaderboard currentAddress={address} />
                             ) : (
@@ -216,29 +211,41 @@ export default function Home() {
                         </div>
                     </div>
 
+                    {/* INFO FOOTER */}
                     <div
                         style={{
-                            padding: "12px 16px",
-                            borderRadius: 12,
-                            background: "rgba(255,255,255,0.02)",
+                            padding: "20px",
+                            borderRadius: 20,
+                            background: "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
                             border: "1px solid rgba(255,255,255,0.06)",
                         }}
                     >
-                        <div style={{ color: "#ffffff60", fontSize: 11, lineHeight: 1.8 }}>
-                            <div style={{ color: "#ffffff80", marginBottom: 6, fontWeight: "bold" }}>HOW TO PLAY</div>
-                            🖱 Move mouse / touch to aim<br />
-                            🔫 Auto-fires bullets<br />
-                            💥 Hit enemies to score<br />
-                            🔗 Submit best score onchain<br />
-                            ⚡ Combos multiply points!
+                        <div style={{ color: "#00cfff", fontSize: 13, marginBottom: 12, fontWeight: "bold", letterSpacing: 1 }}>
+                            🎮 HOW TO PLAY
+                        </div>
+                        <div style={{ color: "#ffffff60", fontSize: 12, lineHeight: 2 }}>
+                            • 🖱 Move to aim (Auto-fire)<br />
+                            • 💥 Destroy enemies for score<br />
+                            • ⚡ Keep combo for multiplier<br />
+                            • ⛓ Submit results to Base
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div style={{ color: "#ffffff20", fontSize: 10, marginTop: 20, textAlign: "center" }}>
-                Built on Base • Powered by wagmi + viem<br />
-                Smart contract on Base mainnet
+            {/* SITE FOOTER */}
+            <div style={{ 
+                marginTop: 40, 
+                padding: "20px", 
+                borderTop: "1px solid rgba(255,255,255,0.05)",
+                width: "100%",
+                maxWidth: 600,
+                textAlign: "center"
+            }}>
+                <div style={{ color: "#ffffff15", fontSize: 11, letterSpacing: 1 }}>
+                    BUILT ON BASE • DECENTRALIZED ARCADE ENGINE<br />
+                    © 2024 COSMIC SHOOTER LABS
+                </div>
             </div>
         </main>
     );
