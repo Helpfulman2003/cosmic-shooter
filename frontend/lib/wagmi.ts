@@ -19,7 +19,6 @@ export const wagmiConfig = createConfig({
   chains: [baseMainnet],
   connectors: [
     injected(),
-    metaMask(),
     coinbaseWallet({ appName: 'Cosmic Shooter' }),
   ],
   transports: {
