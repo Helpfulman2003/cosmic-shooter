@@ -25,9 +25,9 @@ export default function Home() {
             setShowSubmit(true);
             if (score > 0 && isConnected) {
                 setTab("submit");
-                // Tự động cuộn xuống phần nhập điểm sau 500ms
+                // Cuộn xuống một khoảng vừa đủ (400px) thay vì cuộn hết trang
                 setTimeout(() => {
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                    window.scrollBy({ top: 400, behavior: 'smooth' });
                 }, 500);
             }
         },

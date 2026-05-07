@@ -133,7 +133,7 @@ export default function CosmicGame({ onGameOver }: { onGameOver: (score: number)
 
     const x = Math.random() * (W - 40) + 20;
     const life = type === "boss" ? 20 : type === "ship" ? 3 : 2;
-    const speed = 0.5 + level * 0.2 + Math.random() * 1;
+    const speed = 0.8 + level * 0.3 + Math.random() * 1.5;
 
     enemiesRef.current.push({
       pos: { x, y: -30 },
@@ -355,7 +355,7 @@ export default function CosmicGame({ onGameOver }: { onGameOver: (score: number)
       // ── PLAYING ──
 
       // Spawn enemies
-      const spawnRate = Math.max(30, 90 - gs.level * 5);
+      const spawnRate = Math.max(20, 80 - gs.level * 6);
       if (frameRef.current % spawnRate === 0) spawnEnemy();
 
       // Level up
