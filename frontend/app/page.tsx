@@ -23,7 +23,13 @@ export default function Home() {
         (score: number) => {
             setLastScore(score);
             setShowSubmit(true);
-            if (score > 0 && isConnected) setTab("submit");
+            if (score > 0 && isConnected) {
+                setTab("submit");
+                // Tự động cuộn xuống phần nhập điểm sau 500ms
+                setTimeout(() => {
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }, 500);
+            }
         },
         [isConnected]
     );
@@ -85,14 +91,16 @@ export default function Home() {
             <div
                 style={{
                     width: "100%",
-                    maxWidth: 800,
+                    maxWidth: 900,
                     display: "flex",
-                    gap: 16,
-                    alignItems: "flex-start",
+                    gap: "20px",
+                    flexDirection: "row",
                     flexWrap: "wrap",
                     justifyContent: "center",
+                    alignItems: "flex-start",
                 }}
             >
+                {/* GAME CONTAINER */}
                 <div
                     style={{
                         background: "rgba(0,0,0,0.6)",
@@ -100,13 +108,18 @@ export default function Home() {
                         borderRadius: 16,
                         overflow: "hidden",
                         boxShadow: "0 0 40px rgba(0,207,255,0.08), inset 0 0 60px rgba(0,0,20,0.8)",
-                        flex: "0 0 auto",
+                        flex: "1 1 360px",
+                        maxWidth: "400px",
+                        position: "relative",
+                        aspectRatio: "2/3",
+                        maxHeight: "80vh",
                     }}
                 >
                     <CosmicGame onGameOver={handleGameOver} />
                 </div>
 
-                <div style={{ flex: "1 1 240px", minWidth: 240, maxWidth: 300, display: "flex", flexDirection: "column", gap: 12 }}>
+                {/* SIDE PANEL */}
+                <div style={{ flex: "1 1 300px", minWidth: "300px", maxWidth: "400px", display: "flex", flexDirection: "column", gap: 12 }}>
                     {!isConnected && (
                         <div
                             style={{

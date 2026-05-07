@@ -26,8 +26,7 @@ export default function SubmitScorePanel({ score = 0, onSubmitted = () => { } }:
 
   if (!address) return null;
 
-  const isPersonalBest = !playerData || score > Number(playerData.highScore);
-  const canSubmit = isPersonalBest && score > 0;
+  const canSubmit = score > 0;
 
   if (isSuccess) {
     return (
@@ -58,10 +57,11 @@ export default function SubmitScorePanel({ score = 0, onSubmitted = () => { } }:
 
   return (
     <div style={{
-      padding: "16px",
+      padding: "12px",
       borderRadius: 12,
-      background: "rgba(0,207,255,0.05)",
-      border: "1px solid rgba(0,207,255,0.2)",
+      background: "rgba(0,207,255,0.08)",
+      border: "1px solid rgba(0,207,255,0.3)",
+      boxShadow: "0 0 20px rgba(0,207,255,0.1)",
     }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
         <span style={{ color: "#ffffff80", fontFamily: "'Courier New', monospace", fontSize: 12 }}>
@@ -72,11 +72,7 @@ export default function SubmitScorePanel({ score = 0, onSubmitted = () => { } }:
         </span>
       </div>
 
-      {!canSubmit && playerData && score > 0 && (
-        <div style={{ color: "#ff9944", fontSize: 12, fontFamily: "'Courier New', monospace", marginBottom: 10, textAlign: "center" }}>
-          ⚠ Beat your best ({Number(playerData.highScore ?? 0).toLocaleString()}) to submit
-        </div>
-      )}
+
 
       {score === 0 && (
         <div style={{ color: "#ffffff40", fontSize: 12, fontFamily: "'Courier New', monospace", marginBottom: 10, textAlign: "center" }}>
@@ -112,7 +108,7 @@ export default function SubmitScorePanel({ score = 0, onSubmitted = () => { } }:
             disabled={isPending || isConfirming || !nickname.trim()}
             style={{
               width: "100%",
-              padding: "12px",
+              padding: "14px",
               borderRadius: 8,
               background: isPending || isConfirming
                 ? "rgba(0,207,255,0.2)"
@@ -120,14 +116,15 @@ export default function SubmitScorePanel({ score = 0, onSubmitted = () => { } }:
               border: "none",
               color: "#ffffff",
               fontFamily: "'Courier New', monospace",
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: "bold",
               cursor: isPending || isConfirming || !nickname.trim() ? "not-allowed" : "pointer",
-              letterSpacing: 1,
+              letterSpacing: 1.5,
               transition: "all 0.2s",
+              boxShadow: "0 4px 15px rgba(0,102,255,0.3)",
             }}
           >
-            {isPending ? "⏳ CONFIRM IN WALLET…" : isConfirming ? "⛓ WRITING TO CHAIN…" : "⬆ SUBMIT TO BLOCKCHAIN"}
+            {isPending ? "⏳ XÁC NHẬN TRÊN VÍ…" : isConfirming ? "⛓ ĐANG LƯU VÀO BASE…" : "⬆ GỬI ĐIỂM LÊN BASE"}
           </button>
 
           {error && (
